@@ -25,11 +25,6 @@ if($update_time != date("Y年m月d日")){
 $ip_x_64 = number_format(35900/$today_rate,0);
 $ip_x_256 = number_format(41500/$today_rate,0);
 $ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
-
-//var_dump($result);
-//print_r($result);
-//print($result['cur_date']);
-//print($result['exchange_rate']);
 ?>
 
 <!DOCTYPE html>
@@ -148,7 +143,7 @@ $ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
       </div>
 
     <!-- 2. Include library -->
-    <script src="js/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
