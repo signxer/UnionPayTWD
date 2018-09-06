@@ -11,6 +11,7 @@ $today_rate =  number_format(floatval($matches[0][0]),4);
 $last_rate = number_format(floatval($matches[0][1]),4);
 $update_time = $match_date[0];
 $change_rate = number_format($today_rate - $last_rate,4);
+$no_update = "";
 if($change_rate > 0)
 	{$plus = '↑ +'.$change_rate;}
 else if($change_rate < 0)
@@ -19,17 +20,9 @@ else{$plus = '不变';}
 $final_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus.'。浙江省赴台学生联谊会信息部关心您~';
 $half_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus;
 if($update_time != date("Y年m月d日")){
-	$final_str= $update_time."今日汇率尚未更新";
+  $no_update = date("Y年m月d日")." 今日汇率尚未更新<br>";
+  $final_str = '【昨日汇率】'.$update_time.'人民币对新台币的银联汇率为 1:'.$today_rate.',相较前日汇率'.$plus.'。浙江省赴台学生联谊会信息部关心您~';
 }
-
-$ip_x_64 = number_format(35900/$today_rate,0);
-$ip_x_256 = number_format(41500/$today_rate,0);
-$ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
-
-//var_dump($result);
-//print_r($result);
-//print($result['cur_date']);
-//print($result['exchange_rate']);
 ?>
 
 <!DOCTYPE html>
@@ -44,87 +37,9 @@ $ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 	<style>
-  /* Space out content a bit */
-  body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  /* Everything but the jumbotron gets side spacing for mobile first views */
-  .header,
-  .marketing,
-  .footer {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-
-  /* Custom page header */
-  .header {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  /* Make the masthead heading the same height as the navigation */
-  .header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-  }
-
-  /* Custom page footer */
-  .footer {
-    padding-top: 19px;
-    color: #777;
-    border-top: 1px solid #e5e5e5;
-  }
-
-  /* Customize container */
-  @media (min-width: 768px) {
-    .container {
-      max-width: 730px;
-    }
-  }
-  .container-narrow > hr {
-    margin: 30px 0;
-  }
-
-  /* Main marketing message and sign up button */
-  .jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  .jumbotron .btn {
-    padding: 14px 24px;
-    font-size: 21px;
-  }
-
-  /* Supporting marketing content */
-  .marketing {
-    margin: 40px 0;
-  }
-  .marketing p + h4 {
-    margin-top: 28px;
-  }
-
-  /* Responsive: Portrait tablets and up */
-  @media screen and (min-width: 768px) {
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing,
-    .footer {
-      padding-right: 0;
-      padding-left: 0;
-    }
-    /* Space out the masthead */
-    .header {
-      margin-bottom: 30px;
-    }
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-      border-bottom: 0;
-    }
-  }
 	.btn-circle {  
 	  width: 30px;  
 	  height: 30px;  
@@ -184,6 +99,8 @@ $ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
             </div>
             <div class="modal-body">
               <p>复制成功！快去贴~</p>
+              <a class="btn btn-xl btn-circle btn-success center animated flip" href="weixin://"><i class="fa fa-weixin" aria-hidden="true"></i></a>
+              <p>↑跳转微信</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
@@ -211,18 +128,11 @@ $ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
           </div>
         </div>
       </div>
-      <!-- 模态框 -->
+      <!-- 模态框 End -->
       <div class="jumbotron animated fadeIn">
         <h1><i class="fa fa-line-chart" aria-hidden="true"></i> 汇率</h1>
-        <p class="lead"><?php echo $final_str.'<br>汇率更新时间：'.$update_time;?></p>
+        <p class="lead"><?php if($no_update != ""){echo $no_update;} echo $final_str.'<br>汇率更新时间：'.$update_time;?></p>
         <button class="btn btn-xl btn-circle btn-success center animated flip" aria-hidden="true" data-clipboard-text=<?php echo '"'.$final_str.'"';?>><i class="fa fa-clipboard"></i></button>
-    	<hr>
-    	<button type="button" class="btn btn-link" data-toggle="collapse" data-target="#demo" id='btn1'><i class="fa fa-caret-down" aria-hidden="true"></i></button>    
-		<div id="demo" class="collapse in">
-		    <H3><a href="EverydayApple">Everyday <i class="fa fa-apple" aria-hidden="true"></i> TW</a></H3>
-    		<p><?php echo $ip_x_str?></p>
-    		<button class="btn btn-xl btn-circle btn-primary center animated flip" aria-hidden="true" data-clipboard-text=<?php echo '"'.$half_str."(".$ip_x_str.')。浙江省赴台学生联谊会信息部关心您~"';?>><i class="fa fa-clipboard"></i></button>
-		</div>
       </div>
 
     <!-- 2. Include library -->
@@ -253,7 +163,7 @@ $ip_x_str = "iPhone X 64G/256G ≈ ￥".$ip_x_64."/￥".$ip_x_256;
 	});
 	</script> 
     <footer class="footer">
-        <p>&copy; 2017 浙江省赴台学生联谊会信息部</p>
+        <p>&copy; 2018 浙江省赴台学生联谊会信息部</p>
       </footer>
 
     </div> <!-- /container -->
