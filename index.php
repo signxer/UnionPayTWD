@@ -65,7 +65,7 @@ else{
     $suggest_star = "⭐";
     $suggest = "不建议取钱";
 }
-$full_suggest_word = "今日汇率位于最近9天内第".$today_rank."位,取钱指数:".$suggest_star.', '.$suggest.'(仅供参考)。';
+$full_suggest_word = "位于最近9天内第".$today_rank."位,取钱指数:".$suggest_star.','.$suggest.'(仅供参考)。';
 $final_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus.','.$full_suggest_word.'浙江省赴台学生联谊会信息部关心您~';
 $half_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus;
 if($update_time != date("Y年m月d日")){
