@@ -8,7 +8,16 @@ $pattern_date = "#\d{4}年\d{2}月\d{2}日(?=<span style=)#";
 preg_match_all($pattern, $contents, $matches);
 preg_match($pattern_date, $contents, $match_date);
 $today_rate =  number_format(floatval($matches[0][0]),4);
+$origin_today_rate = floatval($matches[0][0]);
 $last_rate = number_format(floatval($matches[0][1]),4);
+$week_rate = $matches[0];
+$week_rate = array_map('floatval', $week_rate);
+$today_rank = 0;
+rsort($week_rate);
+$key = array_search($origin_today_rate, $week_rate);
+if ($key !== false) {
+    $today_rank = $key + 1;
+}
 $update_time = $match_date[0];
 $change_rate = number_format($today_rate - $last_rate,4);
 $no_update = "";
@@ -17,7 +26,47 @@ if($change_rate > 0)
 else if($change_rate < 0)
 	{$plus = '↓ '.$change_rate;}
 else{$plus = '不变';}
-$final_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus.'。浙江省赴台学生联谊会信息部关心您~';
+//取钱建议
+$suggest = "";
+$suggest_star = "";
+if ($today_rank == 1){
+    $suggest_star = "⭐⭐⭐⭐⭐";
+    $suggest = "建议取钱";
+}
+else if($today_rank == 2){
+    $suggest_star = "⭐⭐⭐⭐";
+    $suggest = "建议可适当取钱";
+}
+else if($today_rank == 3){
+    $suggest_star = "⭐⭐⭐";
+    $suggest = "建议可适当取钱";
+}
+else if($today_rank == 4){
+    $suggest_star = "⭐⭐⭐";
+    $suggest = "建议可适当取钱。";
+}
+else if($today_rank == 5){
+    $suggest_star = "⭐⭐";
+    $suggest = "不太建议取钱";
+}
+else if($today_rank == 6){
+    $suggest_star = "⭐⭐";
+    $suggest = "不太建议取钱";
+}
+else if($today_rank == 7){
+    $suggest_star = "⭐";
+    $suggest = "不建议取钱";
+}
+else if($today_rank == 8){
+    $suggest_star = "⭐";
+    $suggest = "不建议取钱";
+}
+else{
+    $suggest_star = "⭐";
+    $suggest = "不建议取钱";
+}
+$full_suggest_word = "今日汇率位于最近9天内第".$today_rank."位,取钱指数:".$suggest_star.', '.$suggest.'(仅供参考)。';
+$final_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus.','.$full_suggest_word.'浙江省赴台学生联谊会信息部关心您~';
 $half_str = '【今日汇率】'.date("n月j日").'人民币对新台币的银联汇率为 1:'.$today_rate.',相较昨日汇率'.$plus;
 if($update_time != date("Y年m月d日")){
   $no_update = date("Y年m月d日")." 今日汇率尚未更新<br>";
