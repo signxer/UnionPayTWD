@@ -43,7 +43,7 @@ else if($today_rank == 3){
 }
 else if($today_rank == 4){
     $suggest_star = "⭐⭐⭐";
-    $suggest = "建议可适当取钱。";
+    $suggest = "建议可适当取钱";
 }
 else if($today_rank == 5){
     $suggest_star = "⭐⭐";
