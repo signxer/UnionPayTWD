@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 date_default_timezone_set('Asia/Shanghai');
-$url = "http://www.kuaiyilicai.com/uprate/twd.html";
+$url = "https://www.kylc.com/uprate/twd.html";
 $contents = file_get_contents($url);
 $pattern = "#(?<=[/][ ])\d[.]\d+#";
 $pattern_date = "#\d{4}年\d{2}月\d{2}日(?=<span style=)#";
