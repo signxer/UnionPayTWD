@@ -2,7 +2,18 @@
 error_reporting(0);
 date_default_timezone_set('Asia/Shanghai');
 $url = "https://www.kylc.com/uprate/twd.html";
-$contents = file_get_contents($url);
+$myfile = fopen("cache.txt", "r") or die("Unable to open file!");
+$contents = fread($myfile,filesize("cache.txt"));
+fclose($myfile);
+$pattern_date = "#\d{4}年\d{2}月\d{2}日(?=<span style=)#";
+preg_match($pattern_date, $contents, $match_date);
+$update_time = $match_date[0];
+if($update_time != date("Y年m月d日")){
+  $contents = file_get_contents($url);
+  $myfile = fopen("cache.txt", "w") or die("Unable to open file!");
+  fwrite($myfile,$contents);
+  fclose($myfile);
+}
 $pattern = "#(?<=[/][ ])\d[.]\d+#";
 $pattern_date = "#\d{4}年\d{2}月\d{2}日(?=<span style=)#";
 preg_match_all($pattern, $contents, $matches);
